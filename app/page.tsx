@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Titulo from "./components/Titulo";
 import Parrafo from "./components/Parrafo";
@@ -6,30 +6,34 @@ import Imagen from "./components/Imagen";
 import Contador from "./components/Contador";
 import Libro from "./components/Libro";
 import Fondo from "./components/Fondo";
+import { Button } from "@/components/ui/button";
+import Sonner from "./components/Sonner";
+import { Modal } from "./components/Modal";
+import { Carousel } from "@/components/ui/carousel";
+import { Carrousel } from "./components/Carrousel";
 
 export default function Home() {
-
-  const [fondo, setFondo] = useState('bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90%');
+  const [fondo, setFondo] = useState(
+    "bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90%",
+  );
 
   const listaFondos = [
-    'bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90%',
-    'bg-radial-[at_50%_75%] from-pink-200 via-red-400 to-purple-900 to-90%',
-    'bg-radial-[at_50%_75%] from-green-200 via-lime-400 to-emerald-900 to-90%',
-    'bg-radial-[at_50%_75%] from-yellow-200 via-orange-400 to-red-900 to-90%',
-  ]
+    "bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90%",
+    "bg-radial-[at_50%_75%] from-pink-200 via-red-400 to-purple-900 to-90%",
+    "bg-radial-[at_50%_75%] from-green-200 via-lime-400 to-emerald-900 to-90%",
+    "bg-radial-[at_50%_75%] from-yellow-200 via-orange-400 to-red-900 to-90%",
+  ];
 
   const cambiarFondo = () => {
     setFondo(listaFondos[Math.floor(Math.random() * listaFondos.length)]);
-  }
+  };
 
   return (
-    <div className={`flex flex-col flex-1 w-full items-center justify-center ${fondo}`}>
+    <div
+      className={`flex flex-col flex-1 w-full items-center justify-center ${fondo}`}
+    >
       <main className="flex flex-col w-2xl gap-5 items-center justify-between p-16 shadow-xl bg-transparent rounded-lg">
-        <Titulo
-          fuente="italic font-sans"
-          size="text-2xl"
-          color="text-white"
-        />
+        <Titulo fuente="italic font-sans" size="text-2xl" color="text-white" />
         <Parrafo
           fuente="not-italic font-mono"
           size="text-xl"
@@ -48,7 +52,9 @@ export default function Home() {
         <Libro />
 
         <Fondo cambiarFondo={cambiarFondo} />
-
+        <Sonner />
+        <Modal />
+        <Carrousel />
       </main>
     </div>
   );
