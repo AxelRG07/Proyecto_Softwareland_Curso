@@ -22,7 +22,7 @@ export function Carrousel() {
         align: "start",
       }}
       orientation="vertical"
-      className="w-full max-w-xs mt-16"
+      className="w-full max-w-xs m-16"
     >
       <CarouselContent className="-mt-1 h-[270px]">
         {listaImagenes.map((img, index) => (

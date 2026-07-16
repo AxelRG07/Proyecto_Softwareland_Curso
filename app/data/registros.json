@@ -1,0 +1,102 @@
+[
+    {
+        "titulo": "SWAB PetCare",
+        "descripcion": "Plataforma web de bienestar y adopción animal.",
+        "icono": "faPaw"
+    },
+    {
+        "titulo": "Coloso Gym",
+        "descripcion": "Sistema web de gestión para gimnasios con membresías.",
+        "icono": "faDumbbell"
+    },
+    {
+        "titulo": "SICEDroid",
+        "descripcion": "Aplicación académica multiplataforma en Kotlin.",
+        "icono": "faMobileScreen"
+    },
+    {
+        "titulo": "SmartAccess",
+        "descripcion": "Control de acceso de escritorio por reconocimiento facial.",
+        "icono": "faUserCheck"
+    },
+    {
+        "titulo": "Entrenamiento de Fútbol",
+        "descripcion": "Práctica semanal en la cancha local.",
+        "icono": "faFutbol"
+    },
+    {
+        "titulo": "Partido de Básquetbol",
+        "descripcion": "Juego amistoso de fin de semana.",
+        "icono": "faBasketball"
+    },
+    {
+        "titulo": "Torneo de Frontenis",
+        "descripcion": "Competencia deportiva de raqueta.",
+        "icono": "faTableTennisPaddleBall"
+    },
+    {
+        "titulo": "Trámites de Residencia",
+        "descripcion": "Documentación para inicio de residencia profesional.",
+        "icono": "faFileSignature"
+    },
+    {
+        "titulo": "Gastos de Roomies",
+        "descripcion": "División de renta y servicios del nuevo cuarto.",
+        "icono": "faHouseUser"
+    },
+    {
+        "titulo": "Paseo del Perro",
+        "descripcion": "Salida matutina al parque con la mascota.",
+        "icono": "faDog"
+    },
+    {
+        "titulo": "Portafolio en React",
+        "descripcion": "Desarrollo de interfaz con Tailwind y Shadcn UI.",
+        "icono": "faReact"
+    },
+    {
+        "titulo": "Repositorio GitHub",
+        "descripcion": "Control de versiones y respaldo de proyectos.",
+        "icono": "faGithub"
+    },
+    {
+        "titulo": "API REST con Django",
+        "descripcion": "Desarrollo de endpoints seguros para el backend.",
+        "icono": "faServer"
+    },
+    {
+        "titulo": "Diseño UI/UX",
+        "descripcion": "Creación de maquetas y flujo de usuario.",
+        "icono": "faPenRuler"
+    },
+    {
+        "titulo": "Migración de Base de Datos",
+        "descripcion": "Mantenimiento y respaldo de tablas en MySQL.",
+        "icono": "faDatabase"
+    },
+    {
+        "titulo": "Revisión de Código",
+        "descripcion": "Optimización y refactorización de componentes.",
+        "icono": "faCode"
+    },
+    {
+        "titulo": "Configuración de Servidor",
+        "descripcion": "Despliegue de aplicación en entorno de producción.",
+        "icono": "faNetworkWired"
+    },
+    {
+        "titulo": "Inventario de Despensa",
+        "descripcion": "Lista de compras para la semana.",
+        "icono": "faCartShopping"
+    },
+    {
+        "titulo": "Ruta a Moroleón",
+        "descripcion": "Mapa y tiempos de traslado estimados.",
+        "icono": "faMapLocationDot"
+    },
+    {
+        "titulo": "Reunión de Equipo",
+        "descripcion": "Llamada de sincronización para avances del proyecto.",
+        "icono": "faUsers"
+    }
+]

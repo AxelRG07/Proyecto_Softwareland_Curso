@@ -6,11 +6,10 @@ import Imagen from "./components/Imagen";
 import Contador from "./components/Contador";
 import Libro from "./components/Libro";
 import Fondo from "./components/Fondo";
-import { Button } from "@/components/ui/button";
 import Sonner from "./components/Sonner";
 import { Modal } from "./components/Modal";
-import { Carousel } from "@/components/ui/carousel";
 import { Carrousel } from "./components/Carrousel";
+import { TableDemo } from "./components/TableDemo";
 
 export default function Home() {
   const [fondo, setFondo] = useState(
@@ -32,7 +31,7 @@ export default function Home() {
     <div
       className={`flex flex-col flex-1 w-full items-center justify-center ${fondo}`}
     >
-      <main className="flex flex-col w-2xl gap-5 items-center justify-between p-16 shadow-xl bg-transparent rounded-lg">
+      <main className="flex flex-col w-2/3 gap-5 items-center justify-between p-16 shadow-xl bg-transparent rounded-lg">
         <Titulo fuente="italic font-sans" size="text-2xl" color="text-white" />
         <Parrafo
           fuente="not-italic font-mono"
@@ -52,9 +51,14 @@ export default function Home() {
         <Libro />
 
         <Fondo cambiarFondo={cambiarFondo} />
+
         <Sonner />
+
         <Modal />
+
         <Carrousel />
+
+        <TableDemo />
       </main>
     </div>
   );
