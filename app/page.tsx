@@ -10,6 +10,8 @@ import Sonner from "./components/Sonner";
 import { Modal } from "./components/Modal";
 import { Carrousel } from "./components/Carrousel";
 import { TableDemo } from "./components/TableDemo";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [fondo, setFondo] = useState(
@@ -33,6 +35,14 @@ export default function Home() {
     >
       <main className="flex flex-col w-2/3 gap-5 items-center justify-between p-16 shadow-xl bg-transparent rounded-lg">
         <Titulo fuente="italic font-sans" size="text-2xl" color="text-white" />
+        <Link href="/registro">
+          <Button
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            Ir al Formulario de Registro
+          </Button>
+        </Link>
         <Parrafo
           fuente="not-italic font-mono"
           size="text-xl"
