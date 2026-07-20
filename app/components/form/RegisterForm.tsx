@@ -33,6 +33,8 @@ import {
 import { SelectDemo } from "./SelectDemo";
 import { CheckboxBasic } from "./CheckBoxBasic";
 import FormController from "./FormController";
+import { RegistersTable } from "./RegistersTable";
+import { useState } from "react";
 
 const getLocalDateString = (date: Date) => {
   if (!date || isNaN(date.getTime())) return "";
@@ -66,223 +68,280 @@ const formSchema = z.object({
   date: z.date(),
 });
 
-export default function RegisterForm() {
+export default function RegisterForm({
+  data,
+  onSave,
+  formId = "form-rhf-demo",
+}: {
+  data?: z.infer<typeof formSchema>;
+  onSave?: (data: z.infer<typeof formSchema>) => void;
+  formId?: string;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
+    shouldUnregister: false,
     defaultValues: {
-      name: "",
-      lastName: "",
-      email: "",
-      password: "",
-      age: "",
-      gender: true,
-      role: "",
-      terms: false,
-      notes: "",
-      date: new Date(),
+      name: data?.name || "",
+      lastName: data?.lastName || "",
+      email: data?.email || "",
+      password: data?.password || "",
+      age: data?.age || "",
+      gender: data?.gender || true,
+      role: data?.role || "",
+      terms: data?.terms || false,
+      notes: data?.notes || "",
+      date: data?.date || new Date(),
     },
   });
 
+  const [registros, setRegistros] = useState<z.infer<typeof formSchema>[]>([]);
+
+  const isEditing = !!data;
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-green-400">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    });
+    if (isEditing && onSave) {
+      onSave(data);
+      console.log(data);
+    } else {
+      setRegistros([...registros, data]);
+      toast("Registro exitoso", {
+        position: "top-center",
+        classNames: {
+          content: "flex flex-col gap-2",
+        },
+        style: {
+          "--border-radius": "calc(var(--radius)  + 4px)",
+        } as React.CSSProperties,
+      });
+      form.reset();
+    }
   }
 
+  const deleteRegister = (index: number) => {
+    const newRegistros = registros.filter((_, i) => i !== index);
+    setRegistros(newRegistros);
+  };
+
+  const updateRegister = (index: number, data: any) => {
+    const newRegistros = registros.map((registro, i) =>
+      i === index ? data : registro,
+    );
+    setRegistros(newRegistros);
+  };
+
   return (
-    <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Bienvenido</CardTitle>
-        <CardDescription>
-          Por favor complete el formulario de registro.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup>
-            <FormController
-              name="name"
-              form={form}
-              label="Nombre"
-              id="form-rhf-demo-title"
-              placeholder="John"
-              type="text"
-              autoComplete="off"
-            />
+    <main>
+      <Card className="w-full sm:max-w-md">
+        {!isEditing && (
+          <CardHeader>
+            <CardTitle>Bienvenido</CardTitle>
+            <CardDescription>
+              Por favor complete el formulario de registro.
+            </CardDescription>
+          </CardHeader>
+        )}
+        <CardContent>
+          <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup>
+              <FormController
+                name="name"
+                form={form}
+                label="Nombre"
+                id="form-rhf-demo-title"
+                placeholder="John"
+                type="text"
+                autoComplete="off"
+              />
 
-            <FormController
-              name="lastName"
-              form={form}
-              label="Apellido"
-              id="form-rhf-demo-description"
-              placeholder="Cena"
-              type="text"
-              autoComplete="off"
-            />
+              <FormController
+                name="lastName"
+                form={form}
+                label="Apellido"
+                id="form-rhf-demo-description"
+                placeholder="Cena"
+                type="text"
+                autoComplete="off"
+              />
 
-            <FormController
-              name="email"
-              form={form}
-              label="Email"
-              id="form-rhf-demo-description"
-              placeholder="axel@gmail.com"
-              type="email"
-              autoComplete="off"
-            />
-
-            <FormController
-              name="password"
-              form={form}
-              label="Password"
-              id="form-rhf-demo-description"
-              placeholder="********"
-              type="password"
-              autoComplete="off"
-            />
-
-            <FormController
-              name="age"
-              form={form}
-              label="Edad"
-              id="form-rhf-demo-description"
-              placeholder="Edad"
-              type="number"
-              autoComplete="off"
-            />
-
-            <Controller
-              name="gender"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Genero
-                  </FieldLabel>
-                  <RadioGroup defaultValue="comfortable" className="w-fit">
-                    <div className="flex items-center gap-3">
-                      <RadioGroupItem value={true} id="r1" />
-                      <Label htmlFor="r1">Masculino</Label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <RadioGroupItem value={false} id="r2" />
-                      <Label htmlFor="r2">Femenino</Label>
-                    </div>
-                  </RadioGroup>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
+              {!isEditing && (
+                <FormController
+                  name="email"
+                  form={form}
+                  label="Email"
+                  id="form-rhf-demo-description"
+                  placeholder="axel@gmail.com"
+                  type="email"
+                  autoComplete="off"
+                />
               )}
-            />
 
-            <Controller
-              name="role"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Rol
-                  </FieldLabel>
-                  <SelectDemo value={field.value} onChange={field.onChange} />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
+              <FormController
+                name="password"
+                form={form}
+                label="Password"
+                id="form-rhf-demo-description"
+                placeholder="********"
+                type="password"
+                autoComplete="off"
+              />
 
-            <Controller
-              name="terms"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Opciones
-                  </FieldLabel>
-                  <CheckboxBasic />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
+              {!isEditing && (
+                <FormController
+                  name="age"
+                  form={form}
+                  label="Edad"
+                  id="form-rhf-demo-description"
+                  placeholder="Edad"
+                  type="number"
+                  autoComplete="off"
+                />
               )}
-            />
 
-            <Controller
-              name="notes"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Notas
-                  </FieldLabel>
-                  <InputGroup>
-                    <InputGroupTextarea
-                      {...field}
-                      id="form-rhf-demo-description"
-                      placeholder="Notas"
-                      rows={6}
-                      className="min-h-24 resize-none"
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums">
-                        {field.value.length}/100 characters
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+              {!isEditing && (
+                <Controller
+                  name="gender"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="form-rhf-demo-description">
+                        Genero
+                      </FieldLabel>
+                      <RadioGroup defaultValue="comfortable" className="w-fit">
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem value={true} id="r1" />
+                          <Label htmlFor="r1">Masculino</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem value={false} id="r2" />
+                          <Label htmlFor="r2">Femenino</Label>
+                        </div>
+                      </RadioGroup>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
                   )}
-                </Field>
+                />
               )}
-            />
 
-            <Controller
-              name="date"
-              control={form.control}
-              render={({ field: { value, ...fieldProps }, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-date">Fecha</FieldLabel>
-                  <Input
-                    {...fieldProps}
-                    value={getLocalDateString(value)}
-                    id="form-rhf-demo-date"
-                    aria-invalid={fieldState.invalid}
-                    autoComplete="off"
-                    type="date"
-                    disabled
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+              <Controller
+                name="role"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-rhf-demo-description">
+                      Rol
+                    </FieldLabel>
+                    <SelectDemo value={field.value} onChange={field.onChange} />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              {!isEditing && (
+                <Controller
+                  name="terms"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="form-rhf-demo-description">
+                        Opciones
+                      </FieldLabel>
+                      <CheckboxBasic />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
                   )}
-                </Field>
+                />
               )}
-            />
-          </FieldGroup>
-        </form>
-      </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="form-rhf-demo">
-            Submit
-          </Button>
-        </Field>
-      </CardFooter>
-    </Card>
+
+              {!isEditing && (
+                <Controller
+                  name="notes"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="form-rhf-demo-description">
+                        Notas
+                      </FieldLabel>
+                      <InputGroup>
+                        <InputGroupTextarea
+                          {...field}
+                          id="form-rhf-demo-description"
+                          placeholder="Notas"
+                          rows={6}
+                          className="min-h-24 resize-none"
+                          aria-invalid={fieldState.invalid}
+                        />
+                        <InputGroupAddon align="block-end">
+                          <InputGroupText className="tabular-nums">
+                            {field.value.length}/100 characters
+                          </InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              )}
+              {isEditing && (
+                <Controller
+                  name="date"
+                  control={form.control}
+                  render={({ field: { value, ...fieldProps }, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="form-rhf-demo-date">
+                        Fecha
+                      </FieldLabel>
+                      <Input
+                        {...fieldProps}
+                        value={getLocalDateString(value)}
+                        id="form-rhf-demo-date"
+                        aria-invalid={fieldState.invalid}
+                        autoComplete="off"
+                        type="date"
+                        disabled
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              )}
+            </FieldGroup>
+          </form>
+        </CardContent>
+        {!isEditing && (
+          <CardFooter>
+            <Field orientation="horizontal">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                Reset
+              </Button>
+              <Button type="submit" form="form-rhf-demo">
+                Submit
+              </Button>
+            </Field>
+          </CardFooter>
+        )}
+      </Card>
+      {!isEditing && (
+        <RegistersTable
+          data={registros}
+          deleteRegister={deleteRegister}
+          updateRegister={updateRegister}
+        />
+      )}
+    </main>
   );
 }
