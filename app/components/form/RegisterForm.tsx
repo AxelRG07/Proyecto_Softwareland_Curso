@@ -46,14 +46,19 @@ const formSchema = z.object({
   name: z
     .string()
     .min(2, "El nombre debe tener al menos 2 caracteres.")
-    .max(32, "El nombre debe tener como máximo 32 caracteres."),
+    .max(32, "El nombre debe tener como máximo 32 caracteres.")
+    .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/, "El nombre debe contener solo letras"),
   lastName: z
     .string()
     .min(2, "El apellido debe tener al menos 2 caracteres.")
-    .max(32, "El apellido debe tener como máximo 32 caracteres."),
-  email: z.email(),
+    .max(32, "El apellido debe tener como máximo 32 caracteres.")
+    .regex(
+      /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
+      "El apellido debe contener solo letras",
+    ),
+  email: z.email("email inválido - ejemplo: axel@gmail.com"),
   password: z.string(),
-  age: z.string(),
+  age: z.string().regex(/^[1-9][0-9]?$/, "Edad invalida"),
   gender: z.boolean(),
   role: z.string(),
   terms: z.boolean(),
@@ -61,9 +66,10 @@ const formSchema = z.object({
   date: z.date(),
 });
 
-export default function FormRegistro() {
+export default function RegisterForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onBlur",
     defaultValues: {
       name: "",
       lastName: "",
@@ -189,7 +195,7 @@ export default function FormRegistro() {
                   <FieldLabel htmlFor="form-rhf-demo-description">
                     Rol
                   </FieldLabel>
-                  <SelectDemo />
+                  <SelectDemo value={field.value} onChange={field.onChange} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

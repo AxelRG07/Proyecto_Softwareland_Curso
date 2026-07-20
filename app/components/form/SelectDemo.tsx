@@ -8,16 +8,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface SelectDemoProps {
+  value?: string;
+  onChange: (value: string | null) => void;
+}
+
 const items = [
-  { label: "Selecciona tu puesto", value: null },
-  { label: "Desarrollador", value: "developer" },
-  { label: "Diseñador", value: "designer" },
-  { label: "Manager", value: "manager" },
+  { label: "Selecciona tu puesto", value: "Sele" },
+  { label: "Desarrollador", value: "Desarrollador" },
+  { label: "Diseñador", value: "Diseñador" },
+  { label: "Manager", value: "Manager" },
 ];
 
-export function SelectDemo() {
+export function SelectDemo({ value, onChange }: SelectDemoProps) {
   return (
-    <Select items={items}>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full max-w-48">
         <SelectValue />
       </SelectTrigger>
@@ -25,7 +30,7 @@ export function SelectDemo() {
         <SelectGroup>
           <SelectLabel>Roles</SelectLabel>
           {items.map((item) => (
-            <SelectItem key={item.value} value={item.value}>
+            <SelectItem key={item.value} value={String(item.value)}>
               {item.label}
             </SelectItem>
           ))}

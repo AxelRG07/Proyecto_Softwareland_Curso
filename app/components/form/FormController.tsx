@@ -37,20 +37,26 @@ export default function FormController({
     <Controller
       name={name}
       control={form.control}
-      render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={id}>{label}</FieldLabel>
-          <Input
-            {...field}
-            id={id}
-            aria-invalid={fieldState.invalid}
-            placeholder={placeholder}
-            autoComplete={autoComplete}
-            type={type}
-          />
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-        </Field>
-      )}
+      render={({ field, fieldState }) => {
+        const isValid =
+          !fieldState.invalid && fieldState.isDirty && fieldState.isTouched;
+
+        return (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={id}>{label}</FieldLabel>
+            <Input
+              {...field}
+              id={id}
+              aria-invalid={fieldState.invalid}
+              placeholder={placeholder}
+              autoComplete={autoComplete}
+              type={type}
+              className={`${isValid ? "focus-visible:ring-green-500 border-green-500" : ""}`}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        );
+      }}
     />
   );
 }
