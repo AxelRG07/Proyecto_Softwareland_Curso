@@ -13,6 +13,7 @@ import { TableDemo } from "./components/TableDemo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import FakeStoreApiBtn from "./components/apis6/FakeStoreApiBtn";
+import { ProductTable } from "./components/apis6/ProductTable";
 
 export default function Home() {
   const [fondo, setFondo] = useState(
@@ -71,7 +72,9 @@ export default function Home() {
 
         <FakeStoreApiBtn id={1} />
 
-        <TableDemo />
+        <ProductTable />
+
+        {/* <TableDemo /> */}
       </main>
     </div>
   );
