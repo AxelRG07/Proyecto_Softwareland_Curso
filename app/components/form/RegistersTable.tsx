@@ -11,11 +11,13 @@ import { Button } from "@/components/ui/button";
 import { EditModal } from "./EditModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import * as z from "zod";
+import { formSchema } from "./RegisterForm";
 
 interface RegistersTableProps {
-  data: any[];
+  data: z.infer<typeof formSchema>[];
   deleteRegister: (index: number) => void;
-  updateRegister: (index: number, data: any) => void;
+  updateRegister: (index: number, data: z.infer<typeof formSchema>) => void;
 }
 
 export function RegistersTable({

@@ -14,7 +14,6 @@ interface SelectDemoProps {
 }
 
 const items = [
-  { label: "Selecciona tu puesto", value: "Sele" },
   { label: "Desarrollador", value: "Desarrollador" },
   { label: "Diseñador", value: "Diseñador" },
   { label: "Manager", value: "Manager" },

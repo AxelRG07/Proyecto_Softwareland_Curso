@@ -10,14 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { z } from "zod";
+import { formSchema } from "./RegisterForm";
 import RegisterForm from "./RegisterForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 interface EditModalProps {
   index: number;
-  data: any;
-  updateRegister: (index: number, data: any) => void;
+  data: z.infer<typeof formSchema>;
+  updateRegister: (index: number, data: z.infer<typeof formSchema>) => void;
 }
 
 export function EditModal({ index, data, updateRegister }: EditModalProps) {

@@ -1,18 +1,7 @@
 import React from "react";
-import {
-  Field,
-  FieldGroup,
-  FieldDescription,
-  FieldSet,
-  FieldLabel,
-  FieldSeparator,
-  FieldError,
-} from "@/components/ui/field";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 interface FormControllerProps {
   name: string;

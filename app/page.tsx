@@ -12,6 +12,7 @@ import { Carrousel } from "./components/Carrousel";
 import { TableDemo } from "./components/TableDemo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import FakeStoreApiBtn from "./components/apis6/FakeStoreApiBtn";
 
 export default function Home() {
   const [fondo, setFondo] = useState(
@@ -67,6 +68,8 @@ export default function Home() {
         <Modal />
 
         <Carrousel />
+
+        <FakeStoreApiBtn id={1} />
 
         <TableDemo />
       </main>

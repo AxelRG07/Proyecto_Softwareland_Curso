@@ -44,7 +44,7 @@ const getLocalDateString = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-const formSchema = z.object({
+export const formSchema = z.object({
   name: z
     .string()
     .min(2, "El nombre debe tener al menos 2 caracteres.")
@@ -61,9 +61,13 @@ const formSchema = z.object({
   email: z.email("email inválido - ejemplo: axel@gmail.com"),
   password: z.string(),
   age: z.string().regex(/^[1-9][0-9]?$/, "Edad invalida"),
-  gender: z.boolean(),
-  role: z.string(),
-  terms: z.boolean(),
+  gender: z.boolean({
+    message: "Por favor seleccione un genero",
+  }),
+  role: z.string().min(1, "Por favor seleccione un rol"),
+  terms: z.boolean().refine((value) => value === true, {
+    message: "Por favor acepte los terminos y condiciones",
+  }),
   notes: z.string(),
   date: z.date(),
 });
@@ -105,6 +109,7 @@ export default function RegisterForm({
       console.log(data);
     } else {
       setRegistros([...registros, data]);
+      console.log(data);
       toast("Registro exitoso", {
         position: "top-center",
         classNames: {
@@ -207,13 +212,24 @@ export default function RegisterForm({
                       <FieldLabel htmlFor="form-rhf-demo-description">
                         Genero
                       </FieldLabel>
-                      <RadioGroup defaultValue="comfortable" className="w-fit">
+                      <RadioGroup
+                        value={
+                          field.value !== undefined
+                            ? String(field.value)
+                            : undefined
+                        }
+                        onValueChange={(val) => {
+                          field.onChange(val === "true");
+                          console.log(field.value);
+                        }}
+                        className="w-fit"
+                      >
                         <div className="flex items-center gap-3">
-                          <RadioGroupItem value={true} id="r1" />
+                          <RadioGroupItem value="true" id="r1" />
                           <Label htmlFor="r1">Masculino</Label>
                         </div>
                         <div className="flex items-center gap-3">
-                          <RadioGroupItem value={false} id="r2" />
+                          <RadioGroupItem value="false" id="r2" />
                           <Label htmlFor="r2">Femenino</Label>
                         </div>
                       </RadioGroup>
@@ -250,7 +266,10 @@ export default function RegisterForm({
                       <FieldLabel htmlFor="form-rhf-demo-description">
                         Opciones
                       </FieldLabel>
-                      <CheckboxBasic />
+                      <CheckboxBasic
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -326,10 +345,10 @@ export default function RegisterForm({
                 variant="outline"
                 onClick={() => form.reset()}
               >
-                Reset
+                Reiniciar
               </Button>
               <Button type="submit" form="form-rhf-demo">
-                Submit
+                Subir
               </Button>
             </Field>
           </CardFooter>
